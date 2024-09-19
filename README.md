@@ -1,2 +1,2 @@
 # Bump
-Analytical solutions for the shallow water equations over a bump
+Analytical solutions for the shallow water equations over a bump.
