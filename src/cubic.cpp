@@ -32,13 +32,15 @@ solve_cubic_equation(std::tuple<double, double, double, double> coefficients)
     double b = std::get<1>(coefficients);
     double c = std::get<2>(coefficients);
     double d = std::get<3>(coefficients);
-
+    //
     // Normalize the coefficients
+    //
     b /= a;
     c /= a;
     d /= a;
-
+    //
     // Calculate the discriminant
+    //
     const double delta0 = b * b - 3.0 * c;
     const double delta1 = 2.0 * b * b * b - 9.0 * b * c + 27.0 * d;
 
@@ -52,7 +54,9 @@ solve_cubic_equation(std::tuple<double, double, double, double> coefficients)
     const std::complex<double> omega(-0.5,
                                      std::sqrt(3.0)
                                          / 2.0); // Cube roots of unity
-
+    //
+    // Compute the roots
+    //
     std::vector<std::complex<double>> roots(3);
     for (size_t k = 0; k < 3; ++k)
     {
