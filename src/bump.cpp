@@ -15,13 +15,13 @@
  * - h_out: Water height at the outlet (m)
  * - length: Length of the domain (m)
  * - gravity: Gravitational acceleration (m/s^2)
- * - num_points: Number of points for the computation
+ * - num_cells: Number of cells for the computation
  *
  * The transcritical flow case is computed with the following parameters:
  * - q_in: Water flow rate at x = 0 (m^2/s)
  * - length: Length of the domain (m)
  * - gravity: Gravitational acceleration (m/s^2)
- * - num_points: Number of points for the computation
+ * - num_cells: Number of cells for the computation
  *
  * @copyright (c) Renuda (UK) Ltd., 2024
  */

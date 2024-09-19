@@ -32,7 +32,7 @@
  * @param q The flow rate of the water.
  * @param g Gravity constant
  *
- * @return double The value of the Rankine-Hugoniot condition.
+ * @return The value of the Rankine-Hugoniot condition.
  */
 inline double
 rankine_hugoniot(double h_plus, double h_minus, double q, double g)

@@ -22,8 +22,8 @@
  *
  * @param coefficients The coefficient of the cubic equation.
  *
- * @return std::vector<std::complex<double>> A vector of complex numbers
- * representing the roots of the cubic equation.
+ * @return A vector of complex numbers representing the roots of the 
+ * cubic equation.
  */
 std::vector<std::complex<double>>
 solve_cubic_equation(std::tuple<double, double, double, double> coefficients);

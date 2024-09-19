@@ -22,8 +22,8 @@
  *
  * @param coefficients The coefficient of the cubic equation.
  *
- * @return std::vector<std::complex<double>> A vector of complex numbers
- * representing the roots of the cubic equation.
+ * @return A vector of complex numbers representing the roots of the 
+ * cubic equation.
  */
 std::vector<std::complex<double>>
 solve_cubic_equation(std::tuple<double, double, double, double> coefficients)
@@ -71,7 +71,7 @@ solve_cubic_equation(std::tuple<double, double, double, double> coefficients)
  * @param roots The three roots of the cubic equation
  * @param h_near The height of water at the previously computed location
  *
- * @return double The height of water
+ * @return The height of water
  */
 double
 find_solution(const std::vector<std::complex<double>>& roots, double h_near)
