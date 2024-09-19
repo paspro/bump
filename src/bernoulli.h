@@ -16,7 +16,7 @@
 
 //
 // Compute the Bernoulli coefficients i.e. the coefficient of the cubic form
-// of the Bernoulli equation a*h^3 + b*h^2 + c*h + d = 0 for the shallow 
+// of the Bernoulli equation a*h^3 + b*h^2 + c*h + d = 0 for the shallow
 // water flow between an inflow and an outflow location.
 //
 // @param q_in The inflow water rate.
@@ -32,7 +32,8 @@ bernoulli_coefficients(
     double q_in, double h_out, double z_in, double z_out, double g)
 {
     const double a = 1.0;
-    const double b = -(q_in * q_in / (2.0 * g * h_out * h_out) + h_out - (z_in - z_out));
+    const double b
+        = -(q_in * q_in / (2.0 * g * h_out * h_out) + h_out - (z_in - z_out));
     const double c = 0.0;
     const double d = q_in * q_in / (2.0 * g);
 

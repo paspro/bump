@@ -24,7 +24,7 @@
 inline double
 bump_geometry(double x)
 {
-    return std::max(0.0, 0.2 - 0.05 * (x - 10.0)*(x - 10.0));
+    return std::max(0.0, 0.2 - 0.05 * (x - 10.0) * (x - 10.0));
 }
 
 /**

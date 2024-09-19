@@ -107,4 +107,3 @@ find_solution(const std::vector<std::complex<double>>& roots, double h_near)
 
     return solution;
 }
-

@@ -4,7 +4,8 @@
  * @version 1.0
  * @date 2024-09-19
  *
- * @brief Computes the analytical solution of the shallow water flow over a bump.
+ * @brief Computes the analytical solution of the shallow water flow over a
+ * bump.
  *
  * @copyright (c) Renuda (UK) Ltd., 2024
  */
@@ -12,8 +13,8 @@
 #pragma once
 
 #include <complex>
-#include <vector>
 #include <tuple>
+#include <vector>
 
 /**
  * @brief Solve a cubic equation of the form: a*h^3 + b*h^2 + c*h + d = 0
