@@ -5,23 +5,8 @@
  * @date 2024-09-19
  *
  * @brief Computes the analytical solution of the shallow water flow over a
- * bump.
- *
- * This program calculates the height of water for the case of shallow flow over
- * a bump. It handles both subcritical and transcritical flow cases.
- *
- * The subcritical flow case is computed with the following parameters:
- * - q_in: Water flow rate at x = 0 (m^2/s)
- * - h_out: Water height at the outlet (m)
- * - length: Length of the domain (m)
- * - gravity: Gravitational acceleration (m/s^2)
- * - num_cells: Number of cells for the computation
- *
- * The transcritical flow case is computed with the following parameters:
- * - q_in: Water flow rate at x = 0 (m^2/s)
- * - length: Length of the domain (m)
- * - gravity: Gravitational acceleration (m/s^2)
- * - num_cells: Number of cells for the computation
+ * bump. This program calculates the height of water for the case of shallow 
+ * flow over a bump. It handles both subcritical and transcritical flow cases.
  *
  * @copyright (c) Renuda (UK) Ltd., 2024
  */
