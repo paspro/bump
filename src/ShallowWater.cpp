@@ -1,20 +1,40 @@
 /**
- * @file cubic.cpp
+ * @file ShallowWater.cpp
  * @author Panos Asproulis <p.asproulis@icloud.com>
- * @version 1.0
- * @date 2024-09-19
+ * @version 2.0
+ * @date 2024-09-20
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump.
- *
- * @copyright (c) Renuda (UK) Ltd., 2024
  */
 
-#include <cmath>
-#include <complex>
-#include <vector>
+#include "ShallowWater.h"
 
-#include "cubic.h"
+//
+// Compute the Bernoulli coefficients i.e. the coefficient of the cubic form
+// of the Bernoulli equation a*h^3 + b*h^2 + c*h + d = 0 for the shallow
+// water flow between an inflow and an outflow location.
+//
+// @param q_in The inflow water rate.
+// @param h_out The water height at the outflow.
+// @param z_in The elevation at the inflow.
+// @param z_out The elevation at the outflow.
+// @param g Gravity.
+//
+// @return The coefficients of the cubic form of the Bernoulli equation.
+//
+std::tuple<double, double, double, double>
+ShallowWater::bernoulli_coefficients(
+    double q_in, double h_out, double z_in, double z_out, double g)
+{
+    const double a = 1.0;
+    const double b
+        = -(q_in * q_in / (2.0 * g * h_out * h_out) + h_out - (z_in - z_out));
+    const double c = 0.0;
+    const double d = q_in * q_in / (2.0 * g);
+
+    return std::make_tuple(a, b, c, d);
+}
 
 /**
  * @brief Solve a cubic equation of the form: a*h^3 + b*h^2 + c*h + d = 0
@@ -22,11 +42,11 @@
  *
  * @param coefficients The coefficient of the cubic equation.
  *
- * @return A vector of complex numbers representing the roots of the 
+ * @return A vector of complex numbers representing the roots of the
  * cubic equation.
  */
 std::vector<std::complex<double>>
-solve_cubic_equation(std::tuple<double, double, double, double> coefficients)
+ShallowWater::solve_cubic_equation(std::tuple<double, double, double, double> coefficients)
 {
     double a = std::get<0>(coefficients);
     double b = std::get<1>(coefficients);
@@ -78,7 +98,7 @@ solve_cubic_equation(std::tuple<double, double, double, double> coefficients)
  * @return The height of water
  */
 double
-find_solution(const std::vector<std::complex<double>>& roots, double h_near)
+ShallowWater::find_solution(const std::vector<std::complex<double>>& roots, double h_near)
 {
     //
     // Ignore the roots with imaginary parts and negative

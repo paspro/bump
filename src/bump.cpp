@@ -1,27 +1,22 @@
 /**
  * @file Bump.cpp
  * @author Panos Asproulis <p.asproulis@icloud.com>
- * @version 1.0
- * @date 2024-09-19
+ * @version 2.0
+ * @date 2024-09-20
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump.
- *
- * @copyright (c) Renuda (UK) Ltd., 2024
  */
 
 #include "Bump.h"
 
 #include <cmath>
-#include <complex>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <valarray>
 #include <vector>
 
-#include "bernoulli.h"
-#include "cubic.h"
+#include "ShallowWater.h"
 
 //
 // Definition of the static variables
@@ -127,15 +122,15 @@ Bump::compute_subcritical_case(double q_in,
         // a*h^3 + b*h^2 + c*h + d = 0
         //
         const auto coeffs
-            = bernoulli_coefficients(q_in, h_out, Bump::z[n], 0.0, g);
+            = ShallowWater::bernoulli_coefficients(q_in, h_out, Bump::z[n], 0.0, g);
         //
         // The bump height solutions
         //
-        const auto height = solve_cubic_equation(coeffs);
+        const auto height = ShallowWater::solve_cubic_equation(coeffs);
         //
         // Find the solution which makes sense for this case
         //
-        h_water[n] = find_solution(height, h_water[n + 1]);
+        h_water[n] = ShallowWater::find_solution(height, h_water[n + 1]);
     }
     //
     // Output the results to the screen and a file
@@ -227,25 +222,25 @@ Bump::compute_transcritical_no_shock_case(double q_in,
         // The coefficients of the Bernoulli cubic equation to solve
         // h^3 + a*h^2 + b*h + c = 0
         //
-        const auto coeffs = bernoulli_coefficients(
+        const auto coeffs = ShallowWater::bernoulli_coefficients(
             q_in, h_middle, Bump::z[n], Bump::z_max, g);
         //
         // The bump height solutions
         //
-        auto height = solve_cubic_equation(coeffs);
+        auto height = ShallowWater::solve_cubic_equation(coeffs);
         //
         // Find the solution which makes sense for this case
         //
-        h_water[n] = find_solution(height, h_water[n + 1] * (1.0 + epsilon));
+        h_water[n] = ShallowWater::find_solution(height, h_water[n + 1] * (1.0 + epsilon));
     }
     //
     // As the bump is symmetric and the values do not coincide with the maximum
     // of the topology, we make the solution deacrease.
     //
-    const auto coeffs = bernoulli_coefficients(
+    const auto coeffs = ShallowWater::bernoulli_coefficients(
         q_in, h_middle, Bump::z[Bump::n_max + 1], Bump::z_max, g);
-    auto height              = solve_cubic_equation(coeffs);
-    h_water[Bump::n_max + 1] = find_solution(height, h_middle);
+    auto height              = ShallowWater::solve_cubic_equation(coeffs);
+    h_water[Bump::n_max + 1] = ShallowWater::find_solution(height, h_middle);
 
     for (int n = Bump::n_max + 2; n <= n_cells; n++)
     {
@@ -253,16 +248,16 @@ Bump::compute_transcritical_no_shock_case(double q_in,
         // The coefficients of the Bernoulli cubic equation to solve
         // h^3 + a*h^2 + b*h + c = 0
         //
-        const auto coeffs = bernoulli_coefficients(
+        const auto coeffs = ShallowWater::bernoulli_coefficients(
             q_in, h_middle, Bump::z[n], Bump::z_max, g);
         //
         // The bump height solutions
         //
-        auto height = solve_cubic_equation(coeffs);
+        auto height = ShallowWater::solve_cubic_equation(coeffs);
         //
         // Find the solution which makes sense for this case
         //
-        h_water[n] = find_solution(height, h_water[n + 1] * (1.0 - epsilon));
+        h_water[n] = ShallowWater::find_solution(height, h_water[n + 1] * (1.0 - epsilon));
     }
     //
     // Output the results to the screen and a file
@@ -372,24 +367,24 @@ Bump::compute_transcritical_shock_case(double q_in,
         // The coefficients of the Bernoulli cubic equation to solve
         // a*h^3 + b*h^2 + c*h + d = 0
         //
-        const auto coeffs1 = bernoulli_coefficients(
+        const auto coeffs1 = ShallowWater::bernoulli_coefficients(
             q_in, h_out, Bump::z[n_shock], Bump::z[n_cells], g);
         //
         // Compute the h_plus water height
         //
-        const auto hplus = solve_cubic_equation(coeffs1);
-        h_plus           = find_solution(hplus, h_out);
+        const auto hplus = ShallowWater::solve_cubic_equation(coeffs1);
+        h_plus           = ShallowWater::find_solution(hplus, h_out);
         //
         // The coefficients of the Bernoulli cubic equation to solve
         // a*h^3 + b*h^2 + c*h + d = 0
         //
-        const auto coeffs2 = bernoulli_coefficients(
+        const auto coeffs2 = ShallowWater::bernoulli_coefficients(
             q_in, h_middle, Bump::z[n_shock], Bump::z_max, g);
         //
         // Compute the h_minus water height
         //
-        const auto hminus = solve_cubic_equation(coeffs2);
-        h_minus           = find_solution(hminus, h_middle);
+        const auto hminus = ShallowWater::solve_cubic_equation(coeffs2);
+        h_minus           = ShallowWater::find_solution(hminus, h_middle);
         //
         // Compute the Rankine-Hugoniot condition
         //
@@ -412,16 +407,16 @@ Bump::compute_transcritical_shock_case(double q_in,
         // The coefficients of the Bernoulli cubic equation to solve
         // a*h^3 + b*h^2 + c*h + d = 0
         //
-        const auto coeffs = bernoulli_coefficients(
+        const auto coeffs = ShallowWater::bernoulli_coefficients(
             q_in, h_middle, Bump::z[n], Bump::z_max, g);
         //
         // The bump height solutions
         //
-        const auto height = solve_cubic_equation(coeffs);
+        const auto height = ShallowWater::solve_cubic_equation(coeffs);
         //
         // Find the solution which makes sense for this case
         //
-        h_water[n] = find_solution(height, h_water[n + 1] + epsilon);
+        h_water[n] = ShallowWater::find_solution(height, h_water[n + 1] + epsilon);
     }
     //
     // Iteration to compute the water height from the outlet to the
@@ -433,16 +428,16 @@ Bump::compute_transcritical_shock_case(double q_in,
         // The coefficients of the Bernoulli cubic equation to solve
         // a*h^3 + b*h^2 + c*h + d = 0
         //
-        const auto coeffs = bernoulli_coefficients(
+        const auto coeffs = ShallowWater::bernoulli_coefficients(
             q_in, h_out, Bump::z[n], Bump::z[n_cells], g);
         //
         // The bump height solutions
         //
-        const auto height = solve_cubic_equation(coeffs);
+        const auto height = ShallowWater::solve_cubic_equation(coeffs);
         //
         // Find the solution which makes sense for this case
         //
-        h_water[n] = find_solution(height, h_water[n + 1]);
+        h_water[n] = ShallowWater::find_solution(height, h_water[n + 1]);
     }
     //
     // Output the results to the screen and a file

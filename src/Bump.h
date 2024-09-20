@@ -1,13 +1,11 @@
 /**
  * @file Bump.h
  * @author Panos Asproulis <p.asproulis@icloud.com>
- * @version 1.0
- * @date 2024-09-19
+ * @version 2.0
+ * @date 2024-09-20
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump.
- *
- * @copyright (c) Renuda (UK) Ltd., 2024
  */
 
 #pragma once

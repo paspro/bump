@@ -1,14 +1,12 @@
 /**
  * @file driver.cpp
  * @author Panos Asproulis <p.asproulis@icloud.com>
- * @version 1.0
- * @date 2024-09-19
+ * @version 2.0
+ * @date 2024-09-20
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump. This program calculates the height of water for the case of shallow
  * flow over a bump. It handles both subcritical and transcritical flow cases.
- *
- * @copyright (c) Renuda (UK) Ltd., 2024
  */
 
 #include <iostream>
@@ -40,6 +38,7 @@ main(void)
     q_in     = 4.42;                   // water flow rate at x = 0 (m^2/s)
     h_out    = 2.00;                   // water height at the outlet (m)
     filename = "subcritical_bump.dat"; // name of the file to save the results
+    
     Bump::compute_subcritical_case(
         q_in, h_out, length, 9.81, n_cells, filename, true);
 
