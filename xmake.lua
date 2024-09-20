@@ -1,4 +1,22 @@
+
 add_rules("mode.debug", "mode.release")
+
+toolchain("llvm-homebrew")
+    set_kind("standalone")
+    set_toolset("cc", "/opt/homebrew/opt/llvm/bin/clang")
+    set_toolset("cxx", "/opt/homebrew/opt/llvm/bin/clang", "/opt/homebrew/opt/llvm/bin/clang++")
+    set_toolset("ld", "/opt/homebrew/opt/llvm/bin/clang++", "/opt/homebrew/opt/llvm/bin/clang")
+    set_toolset("sh", "/opt/homebrew/opt/llvm/bin/clang++", "/opt/homebrew/opt/llvm/bin/clang")
+    set_toolset("ar", "/opt/homebrew/opt/llvm/bin/llvm-ar")
+    set_toolset("ex", "/opt/homebrew/opt/llvm/bin/llvm-ar")
+    set_toolset("strip", "/opt/homebrew/opt/llvm/bin/llvm-strip")
+    set_toolset("mm", "/opt/homebrew/opt/llvm/bin/clang")
+    set_toolset("mxx", "/opt/homebrew/opt/llvm/bin/clang", "/opt/homebrew/opt/llvm/bin/clang++")
+    set_toolset("as", "/opt/homebrew/opt/llvm/bin/clang")
+
+if is_plat("macosx") then
+    set_toolset("llvm-homebrew")
+end
 
 target("bump")
     set_kind("binary")
