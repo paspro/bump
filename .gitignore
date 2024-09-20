@@ -7,3 +7,6 @@ build/
 
 # VSCode
 .vscode/
+
+# Documentation
+docs/
