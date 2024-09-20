@@ -26,6 +26,8 @@ main(void)
               << "Bump - Computation of the height of water for the case of\n"
                  "shallow flow over a bump."
               << std::endl
+              << std::endl
+              << "Version 2.0" << std::endl
               << std::endl;
 
     length  = 25.0; // length of the domain (m)
