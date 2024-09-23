@@ -74,18 +74,14 @@ Bump::initialise_geometry(double length, std::size_t n_cells)
  *
  * @param q_in Water flow rate at x = 0.
  * @param h_out Water height at the outlet.
- * @param length Length of the domain.
  * @param g Gravity.
- * @param n_cells Number of discretisation cells.
  * @param filename Name of the file to save the results.
  * @param screen_output Flag to output the results to the screen.
  */
 void
 Bump::compute_subcritical_case(double q_in,
                                double h_out,
-                               double length,
                                double g,
-                               std::size_t n_cells,
                                std::string filename,
                                bool screen_output)
 {
@@ -115,14 +111,14 @@ Bump::compute_subcritical_case(double q_in,
     std::valarray<double> h_water(0.0, n_cells + 1);
     h_water[n_cells] = h_out;
 
-    for (int n = n_cells - 1; n >= 0; n--)
+    for (int n = Bump::n_cells - 1; n >= 0; n--)
     {
         //
         // The coefficients of the Bernoulli cubic equation to solve
         // a*h^3 + b*h^2 + c*h + d = 0
         //
-        const auto coeffs
-            = ShallowWater::bernoulli_coefficients(q_in, h_out, Bump::z[n], 0.0, g);
+        const auto coeffs = ShallowWater::bernoulli_coefficients(
+            q_in, h_out, Bump::z[n], 0.0, g);
         //
         // The bump height solutions
         //
@@ -135,7 +131,7 @@ Bump::compute_subcritical_case(double q_in,
     //
     // Output the results to the screen and a file
     //
-    for (int n = 1; n <= n_cells; n++)
+    for (int n = 1; n <= Bump::n_cells; n++)
     {
         //
         // Output the results to the screen
@@ -167,17 +163,13 @@ Bump::compute_subcritical_case(double q_in,
  * @brief Compute the transcritical no-shock case and outputs the results.
  *
  * @param q_in Water flow rate at x = 0.
- * @param length Length of the domain.
  * @param g Gravity.
- * @param n_cells Number of discretisation cells.
  * @param filename Name of the file to save the results.
  * @param screen_output Flag to output the results to the screen.
  */
 void
 Bump::compute_transcritical_no_shock_case(double q_in,
-                                          double length,
                                           double g,
-                                          std::size_t n_cells,
                                           std::string filename,
                                           bool screen_output)
 {
@@ -203,7 +195,7 @@ Bump::compute_transcritical_no_shock_case(double q_in,
     //
     // Discretisation
     //
-    const double epsilon = 1.0 / double(n_cells);
+    const double epsilon = 1.0 / double(Bump::n_cells);
     //
     // Water height at the top of the bump. This is computed by taking
     // the derivative of the Bernoulli equation and finding the height
@@ -213,8 +205,8 @@ Bump::compute_transcritical_no_shock_case(double q_in,
     //
     // Iteration from the location of the maximum bump height to the beginning
     //
-    std::valarray<double> h_water(0.0, n_cells + 1);
-    h_water[n_max] = h_middle;
+    std::valarray<double> h_water(0.0, Bump::n_cells + 1);
+    h_water[Bump::n_max] = h_middle;
 
     for (int n = Bump::n_max - 1; n >= 0; n--)
     {
@@ -231,7 +223,8 @@ Bump::compute_transcritical_no_shock_case(double q_in,
         //
         // Find the solution which makes sense for this case
         //
-        h_water[n] = ShallowWater::find_solution(height, h_water[n + 1] * (1.0 + epsilon));
+        h_water[n] = ShallowWater::find_solution(
+            height, h_water[n + 1] * (1.0 + epsilon));
     }
     //
     // As the bump is symmetric and the values do not coincide with the maximum
@@ -242,7 +235,7 @@ Bump::compute_transcritical_no_shock_case(double q_in,
     auto height              = ShallowWater::solve_cubic_equation(coeffs);
     h_water[Bump::n_max + 1] = ShallowWater::find_solution(height, h_middle);
 
-    for (int n = Bump::n_max + 2; n <= n_cells; n++)
+    for (int n = Bump::n_max + 2; n <= Bump::n_cells; n++)
     {
         //
         // The coefficients of the Bernoulli cubic equation to solve
@@ -257,7 +250,8 @@ Bump::compute_transcritical_no_shock_case(double q_in,
         //
         // Find the solution which makes sense for this case
         //
-        h_water[n] = ShallowWater::find_solution(height, h_water[n + 1] * (1.0 - epsilon));
+        h_water[n] = ShallowWater::find_solution(
+            height, h_water[n + 1] * (1.0 - epsilon));
     }
     //
     // Output the results to the screen and a file
@@ -267,9 +261,9 @@ Bump::compute_transcritical_no_shock_case(double q_in,
         std::cout << std::fixed << std::setprecision(6);
         std::cout << "Maximum bump height                 = " << Bump::z_max
                   << std::endl;
-        std::cout << "Location of maximum bump height     = " << Bump::x[n_max]
+        std::cout << "Location of maximum bump height     = " << Bump::x[Bump::n_max]
                   << std::endl;
-        std::cout << "Water height at maximum bump height = " << h_water[n_max]
+        std::cout << "Water height at maximum bump height = " << h_water[Bump::n_max]
                   << std::endl;
         std::cout << "=============================================="
                   << std::endl;
@@ -309,18 +303,14 @@ Bump::compute_transcritical_no_shock_case(double q_in,
  *
  * @param q_in Water flow rate at x = 0.
  * @param h_out Water height at the outlet.
- * @param length Length of the domain.
  * @param g Gravity.
- * @param n_cells Number of discretisation cells.
  * @param filename Name of the file to save the results.
  * @param screen_output Flag to output the results to the screen.
  */
 void
 Bump::compute_transcritical_shock_case(double q_in,
                                        double h_out,
-                                       double length,
                                        double g,
-                                       std::size_t n_cells,
                                        std::string filename,
                                        bool screen_output)
 {
@@ -346,8 +336,8 @@ Bump::compute_transcritical_shock_case(double q_in,
     //
     // Discretisation
     //
-    const double epsilon = 1.0 / double(n_cells);
-    const double epsi    = 10.0 / double(n_cells);
+    const double epsilon = 1.0 / double(Bump::n_cells);
+    const double epsi    = 10.0 / double(Bump::n_cells);
     //
     // Water height at the top of the bump. This is computed by taking
     // the derivative of the Bernoulli equation and finding the height
@@ -361,7 +351,7 @@ Bump::compute_transcritical_shock_case(double q_in,
     double h_plus = 0.0, h_minus = 0.0;
     std::size_t n_shock = n_max;
 
-    while (rh_test > epsi && n_shock < n_cells)
+    while (rh_test > epsi && n_shock < Bump::n_cells)
     {
         //
         // The coefficients of the Bernoulli cubic equation to solve
@@ -394,9 +384,9 @@ Bump::compute_transcritical_shock_case(double q_in,
     //
     // Water height with the shock location found
     //
-    std::valarray<double> h_water(0.0, n_cells + 1);
+    std::valarray<double> h_water(0.0, Bump::n_cells + 1);
     h_water[n_shock] = h_minus;
-    h_water[n_cells] = h_out;
+    h_water[Bump::n_cells] = h_out;
     //
     // Iteration to compute the water height from the shock location to the
     // location of the inlet.
@@ -416,20 +406,21 @@ Bump::compute_transcritical_shock_case(double q_in,
         //
         // Find the solution which makes sense for this case
         //
-        h_water[n] = ShallowWater::find_solution(height, h_water[n + 1] + epsilon);
+        h_water[n]
+            = ShallowWater::find_solution(height, h_water[n + 1] + epsilon);
     }
     //
     // Iteration to compute the water height from the outlet to the
     // location of the shock
     //
-    for (int n = n_cells - 1; n > n_shock; n--)
+    for (int n = Bump::n_cells - 1; n > n_shock; n--)
     {
         //
         // The coefficients of the Bernoulli cubic equation to solve
         // a*h^3 + b*h^2 + c*h + d = 0
         //
         const auto coeffs = ShallowWater::bernoulli_coefficients(
-            q_in, h_out, Bump::z[n], Bump::z[n_cells], g);
+            q_in, h_out, Bump::z[n], Bump::z[Bump::n_cells], g);
         //
         // The bump height solutions
         //
@@ -447,9 +438,9 @@ Bump::compute_transcritical_shock_case(double q_in,
         std::cout << std::fixed << std::setprecision(6);
         std::cout << "Maximum bump height                 = " << Bump::z_max
                   << std::endl;
-        std::cout << "Location of maximum bump height     = " << Bump::x[n_max]
+        std::cout << "Location of maximum bump height     = " << Bump::x[Bump::n_max]
                   << std::endl;
-        std::cout << "Water height at maximum bump height = " << h_water[n_max]
+        std::cout << "Water height at maximum bump height = " << h_water[Bump::n_max]
                   << std::endl;
         std::cout << "Shock location                      = "
                   << Bump::x[n_shock] << std::endl;
@@ -461,7 +452,7 @@ Bump::compute_transcritical_shock_case(double q_in,
                   << std::endl;
         std::cout << "x (m)      height (m)" << std::endl;
     }
-    for (int n = 1; n <= n_cells; n++)
+    for (int n = 1; n <= Bump::n_cells; n++)
     {
         //
         // Output the results to the screen
