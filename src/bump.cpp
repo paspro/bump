@@ -8,14 +8,13 @@
  * bump.
  */
 
-#include "Bump.h"
-
 #include <cmath>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <vector>
 
+#include "Bump.h"
 #include "ShallowWater.h"
 
 //
@@ -66,7 +65,7 @@ Bump::initialise_geometry(double length, std::size_t n_cells)
             Bump::n_max = n;
         }
     }
-    Bump::z_max = Bump::maximum_bump_height();
+    Bump::z_max = 0.2;
 }
 
 /**
@@ -94,7 +93,7 @@ Bump::compute_subcritical_case(double q_in,
         std::cout << "Subcritical Flow Over a Bump" << std::endl;
         std::cout << "=============================================="
                   << std::endl;
-        std::cout << "x (m)      height (m)" << std::endl;
+        std::cout << "x (m)     Z (m)     height (m)" << std::endl;
     }
     //
     // Open a file to save the height of water
@@ -107,6 +106,7 @@ Bump::compute_subcritical_case(double q_in,
     }
     //
     // Iteration from the end of the field to the beginning
+    // with application of the Bernoulli equation at each cell
     //
     std::valarray<double> h_water(0.0, n_cells + 1);
     h_water[n_cells] = h_out;
@@ -133,13 +133,14 @@ Bump::compute_subcritical_case(double q_in,
     //
     for (int n = 1; n <= Bump::n_cells; n++)
     {
+        h_water[n] += Bump::z[n];
         //
         // Output the results to the screen
         //
         if (screen_output)
         {
             std::cout << std::fixed << std::setprecision(6);
-            std::cout << Bump::x[n] << "   " << h_water[n] << std::endl;
+            std::cout << Bump::x[n] << "  " << z[n] << "  " << h_water[n] << std::endl;
         }
         //
         // Output the results to a file
@@ -232,6 +233,7 @@ Bump::compute_transcritical_no_shock_case(double q_in,
     //
     const auto coeffs = ShallowWater::bernoulli_coefficients(
         q_in, h_middle, Bump::z[Bump::n_max + 1], Bump::z_max, g);
+
     auto height              = ShallowWater::solve_cubic_equation(coeffs);
     h_water[Bump::n_max + 1] = ShallowWater::find_solution(height, h_middle);
 
@@ -267,17 +269,18 @@ Bump::compute_transcritical_no_shock_case(double q_in,
                   << std::endl;
         std::cout << "=============================================="
                   << std::endl;
-        std::cout << "x (m)      height (m)" << std::endl;
+        std::cout << "x (m)     Z (m)     height (m)" << std::endl;
     }
     for (int n = 1; n <= n_cells; n++)
     {
+        h_water[n] += Bump::z[n];
         //
         // Output the results to the screen
         //
         if (screen_output)
         {
             std::cout << std::fixed << std::setprecision(6);
-            std::cout << Bump::x[n] << "   " << h_water[n] << std::endl;
+            std::cout << Bump::x[n] << "  " << z[n] << "  " << h_water[n] << std::endl;
         }
         //
         // Output the results to a file
@@ -450,17 +453,18 @@ Bump::compute_transcritical_shock_case(double q_in,
                   << std::endl;
         std::cout << "=============================================="
                   << std::endl;
-        std::cout << "x (m)      height (m)" << std::endl;
+        std::cout << "x (m)     Z (m)     height (m)" << std::endl;
     }
     for (int n = 1; n <= Bump::n_cells; n++)
     {
+        h_water[n] += Bump::z[n];
         //
         // Output the results to the screen
         //
         if (screen_output)
         {
             std::cout << std::fixed << std::setprecision(6);
-            std::cout << Bump::x[n] << "   " << h_water[n] << std::endl;
+            std::cout << Bump::x[n] << "  " << z[n] << "  " << h_water[n] << std::endl;
         }
         //
         // Output the results to a file

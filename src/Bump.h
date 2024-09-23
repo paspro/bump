@@ -131,17 +131,6 @@ private:
         return std::max(0.0, 0.2 - 0.05 * (x - 10.0) * (x - 10.0));
     }
 
-    /**
-     * @brief The maximum height of the bump.
-     *
-     * @return The maximum height of the bump.
-     */
-    inline static double
-    maximum_bump_height()
-    {
-        return 0.2;
-    }
-
 private:
     /**
      * @brief The length of the domain.
