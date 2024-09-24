@@ -2,7 +2,7 @@
  * @file ShallowWater.h
  * @author Panos Asproulis <p.asproulis@icloud.com>
  * @version 2.1
- * @date 2024-09-23
+ * @date 2024-09-24
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump.

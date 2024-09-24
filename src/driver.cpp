@@ -2,7 +2,7 @@
  * @file driver.cpp
  * @author Panos Asproulis <p.asproulis@icloud.com>
  * @version 2.1
- * @date 2024-09-23
+ * @date 2024-09-24
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump. This program calculates the height of water for the case of shallow

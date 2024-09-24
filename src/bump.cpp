@@ -2,7 +2,7 @@
  * @file Bump.cpp
  * @author Panos Asproulis <p.asproulis@icloud.com>
  * @version 2.1
- * @date 2024-09-23
+ * @date 2024-09-24
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump.
@@ -128,12 +128,15 @@ Bump::compute_subcritical_case(double q_in,
         //
         h_water[n] = ShallowWater::find_solution(height, h_water[n + 1]);
     }
+    for (int n = 0; n <= Bump::n_cells; n++)
+    {
+        h_water[n] += Bump::z[n];
+    }
     //
     // Output the results to the screen and a file
     //
     for (int n = 1; n <= Bump::n_cells; n++)
     {
-        h_water[n] += Bump::z[n];
         //
         // Output the results to the screen
         //
@@ -156,6 +159,7 @@ Bump::compute_subcritical_case(double q_in,
     //
     if (!filename.empty())
     {
+        subcritical_file.flush();
         subcritical_file.close();
     }
 }
@@ -271,9 +275,12 @@ Bump::compute_transcritical_no_shock_case(double q_in,
                   << std::endl;
         std::cout << "x (m)     Z (m)     height (m)" << std::endl;
     }
-    for (int n = 1; n <= n_cells; n++)
+    for (int n = 0; n <= Bump::n_cells; n++)
     {
         h_water[n] += Bump::z[n];
+    }
+    for (int n = 1; n <= n_cells; n++)
+    {
         //
         // Output the results to the screen
         //
@@ -297,6 +304,7 @@ Bump::compute_transcritical_no_shock_case(double q_in,
     //
     if (!filename.empty())
     {
+        transcritical_no_shock_file.flush();
         transcritical_no_shock_file.close();
     }
 }
@@ -352,7 +360,7 @@ Bump::compute_transcritical_shock_case(double q_in,
     //
     double rh_test = 100.0;
     double h_plus = 0.0, h_minus = 0.0;
-    std::size_t n_shock = n_max;
+    std::size_t n_shock = n_max + 1;
 
     while (rh_test > epsi && n_shock < Bump::n_cells)
     {
@@ -367,6 +375,10 @@ Bump::compute_transcritical_shock_case(double q_in,
         //
         const auto hplus = ShallowWater::solve_cubic_equation(coeffs1);
         h_plus           = ShallowWater::find_solution(hplus, h_out);
+        if (h_plus <= 1.e-5) {
+            n_shock++;
+            continue;
+        }
         //
         // The coefficients of the Bernoulli cubic equation to solve
         // a*h^3 + b*h^2 + c*h + d = 0
@@ -378,6 +390,11 @@ Bump::compute_transcritical_shock_case(double q_in,
         //
         const auto hminus = ShallowWater::solve_cubic_equation(coeffs2);
         h_minus           = ShallowWater::find_solution(hminus, h_middle);
+        if (h_minus <= 1.e-5)
+        {
+            n_shock++;
+            continue;
+        };
         //
         // Compute the Rankine-Hugoniot condition
         //
@@ -445,8 +462,8 @@ Bump::compute_transcritical_shock_case(double q_in,
                   << std::endl;
         std::cout << "Water height at maximum bump height = " << h_water[Bump::n_max]
                   << std::endl;
-        std::cout << "Shock location                      = "
-                  << Bump::x[n_shock] << std::endl;
+        std::cout << "Shock location (n, x)               = "
+                  << "(" << n_shock << ", " << Bump::x[n_shock] << ")" << std::endl;
         std::cout << "Shock height minus                  = " << h_minus
                   << std::endl;
         std::cout << "Shock height plus                   = " << h_plus
@@ -455,9 +472,12 @@ Bump::compute_transcritical_shock_case(double q_in,
                   << std::endl;
         std::cout << "x (m)     Z (m)     height (m)" << std::endl;
     }
-    for (int n = 1; n <= Bump::n_cells; n++)
+    for (int n = 0; n <= Bump::n_cells; n++)
     {
         h_water[n] += Bump::z[n];
+    }
+    for (int n = 1; n <= Bump::n_cells; n++)
+    {
         //
         // Output the results to the screen
         //
@@ -481,6 +501,7 @@ Bump::compute_transcritical_shock_case(double q_in,
     //
     if (!filename.empty())
     {
+        transcritical_shock_file.flush();
         transcritical_shock_file.close();
     }
 }

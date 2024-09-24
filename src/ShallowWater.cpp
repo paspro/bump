@@ -2,7 +2,7 @@
  * @file ShallowWater.cpp
  * @author Panos Asproulis <p.asproulis@icloud.com>
  * @version 2.1
- * @date 2024-09-23
+ * @date 2024-09-24
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump.
@@ -107,7 +107,7 @@ ShallowWater::find_solution(const std::vector<std::complex<double>>& roots, doub
     std::vector<double> real_roots;
     for (const auto& root : roots)
     {
-        if (std::abs(root.imag()) <= 1.0e-6 && root.real() >= 0.0)
+        if (std::fabs(root.imag()) <= 1.0e-6 && root.real() >= 0.0)
         {
             real_roots.push_back(root.real());
         }
@@ -121,7 +121,7 @@ ShallowWater::find_solution(const std::vector<std::complex<double>>& roots, doub
 
     for (const auto& root : real_roots)
     {
-        const double diff = std::abs(root - h_near);
+        const double diff = std::fabs(root - h_near);
         if (diff < min_diff)
         {
             solution = root;

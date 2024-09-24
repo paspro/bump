@@ -2,7 +2,7 @@
  * @file Bump.h
  * @author Panos Asproulis <p.asproulis@icloud.com>
  * @version 2.1
- * @date 2024-09-23
+ * @date 2024-09-24
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump.
@@ -67,7 +67,7 @@ public:
     inline static double
     rankine_hugoniot(double h_plus, double h_minus, double q, double g)
     {
-        return abs(q * q * (1.0 / h_plus - 1.0 / h_minus)
+        return std::fabs(q * q * (1.0 / h_plus - 1.0 / h_minus)
                    + 0.5 * g * (h_plus - h_minus) * (h_plus + h_minus));
     }
 
