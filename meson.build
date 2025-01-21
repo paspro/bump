@@ -21,14 +21,14 @@ hdrs = include_directories('src')
 #
 # Documentation generation
 #
-doxygen = find_program('doxygen', required : false)
+doxygen = find_program('doxygen', required: false)
 if doxygen.found()
-  message('Doxygen found')
-  run_target('docs', command : [doxygen, meson.source_root() + '/Doxyfile'])    
+    message('Doxygen found')
+    run_target('docs', command: [doxygen, meson.source_root() + '/Doxyfile'])
 else
-  warning('Documentation disabled without doxygen')
+    warning('Documentation disabled without doxygen')
 endif
 #
 # Executable target
 #
-executable('bump', src, include_directories : hdrs)
+executable('bump', src, include_directories: hdrs)
