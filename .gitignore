@@ -1,14 +1,12 @@
 # Build directory
-builddir/
+.xmake/
+build/
 
 # MacOS Cache
 .DS_Store
 
 # VSCode
 .vscode/
-
-# Jetbrains IDEs
-.idea
 
 # Documentation
 docs/
