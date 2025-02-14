@@ -84,8 +84,7 @@ double ShallowWater::find_solution(const std::vector<std::complex<double>>& root
 
     for (const auto& root : real_roots)
     {
-        const double diff = std::fabs(root - h_near);
-        if (diff < min_diff)
+        if (const double diff = std::fabs(root - h_near); diff < min_diff)
         {
             solution = root;
             min_diff = diff;

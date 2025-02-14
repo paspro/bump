@@ -18,7 +18,7 @@ int main()
     std::string filename;
     double q_in, h_out, length;
     //
-    // Title
+    // Title.
     //
     std::cout << std::endl
               << "Bump - Computation of the height of water for the case of\n"
