@@ -5,7 +5,8 @@ build/
 # MacOS Cache
 .DS_Store
 
-# VSCode
+# IDEs
+.idea/
 .vscode/
 
 # Documentation

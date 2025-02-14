@@ -1,8 +1,7 @@
-/**
+/*!
  * @file driver.cpp
  * @author Panos Asproulis <p.asproulis@icloud.com>
  * @version 2.1
- * @date 2024-09-24
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump. This program calculates the height of water for the case of shallow
@@ -13,8 +12,7 @@
 
 #include "Bump.h"
 
-int
-main(void)
+int main()
 {
     std::size_t n_cells;
     std::string filename;
@@ -46,7 +44,7 @@ main(void)
     //
     // Transcritical no-shock flow over a bump
     //
-    q_in     = 1.53; // water flow rate at x = 0 (m^2/s)
+    q_in     = 1.53;                              // water flow rate at x = 0 (m^2/s)
     filename = "transcritical_no_shock_bump.dat"; // name of the file to save
                                                   // the results
     Bump::compute_transcritical_no_shock_case(q_in, 9.81, filename, true);
@@ -54,11 +52,11 @@ main(void)
     //
     // Transcritical shock flow over a bump
     //
-    q_in     = 0.18; // water flow rate at x = 0 (m^2/s)
-    h_out    = 0.33; // water height at the outlet (m)
+    q_in     = 0.18;                           // water flow rate at x = 0 (m^2/s)
+    h_out    = 0.33;                           // water height at the outlet (m)
     filename = "transcritical_shock_bump.dat"; // name of the file to save
                                                // the results
     Bump::compute_transcritical_shock_case(q_in, h_out, 9.81, filename, true);
 
-    return (0);
+    return EXIT_SUCCESS;
 }
