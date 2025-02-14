@@ -1,7 +1,7 @@
 /*!
  * @file driver.cpp
  * @author Panos Asproulis <p.asproulis@icloud.com>
- * @version 2.1
+ * @version 2.1.1
  *
  * @brief Computes the analytical solution of the shallow water flow over a
  * bump. This program calculates the height of water for the case of shallow
@@ -25,7 +25,7 @@ int main()
                  "shallow flow over a bump."
               << std::endl
               << std::endl
-              << "Version 2.1" << std::endl
+              << "Version 2.1.1" << std::endl
               << std::endl;
 
     length  = 25.0; // length of the domain (m)
