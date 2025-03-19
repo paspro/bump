@@ -41,9 +41,3 @@ jobs:
 
     - name: Generate documentation
       run: cargo doc --no-deps --verbose
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./target/doc
