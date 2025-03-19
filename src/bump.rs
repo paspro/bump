@@ -48,6 +48,9 @@ pub struct Bump {
     n_max: usize,
 }
 
+//
+// Implementation of the Bump struct.
+//
 impl Bump {
     ///
     /// Create a new Bump object and initialise its geometry.
@@ -99,7 +102,7 @@ impl Bump {
     ///  - `x`: the x-coordinate [m].
     ///
     /// - Returns:
-    ///   - the height of the bump for the given x-coordinate [m].
+    ///   - The height of the bump for the given x-coordinate [m].
     ///
     #[inline]
     fn bump_geometry(x: f64) -> f64 {
@@ -110,10 +113,10 @@ impl Bump {
     /// Computes the Rankine-Hugoniot condition for shock conditions.
     ///
     /// - Arguments:
-    ///  - `h_plus`: the height of the water on the right side of the shock [m].
-    /// - `h_minus`: the height of the water on the left side of the shock [m].
-    /// - `q`: flow rate of water [m²/s].
-    /// - `g`: the acceleration due to gravity [m/s²].
+    ///   - `h_plus`: the height of the water on the right side of the shock [m].
+    ///   - `h_minus`: the height of the water on the left side of the shock [m].
+    ///   - `q`: flow rate of water [m²/s].
+    ///   - `g`: the acceleration due to gravity [m/s²].
     ///
     /// - Returns:
     ///   - The value of the Rankine-Hugoniot condition which should be zero
@@ -129,11 +132,11 @@ impl Bump {
     /// Computes the subcritical case and outputs the results.
     ///
     /// - Arguments:
-    /// - `q_in`: the inflow discharge [m²/s].
-    /// - `h_out`: the outflow height [m].
-    /// - `g`: the acceleration due to gravity [m/s²].
-    /// - `filename`: the name of the file to output the results.
-    /// - `screen_output`: whether to output the results to the screen.
+    ///   - `q_in`: the inflow discharge [m²/s].
+    ///   - `h_out`: the outflow height [m].
+    ///   - `g`: the acceleration due to gravity [m/s²].
+    ///   - `filename`: the name of the file to output the results.
+    ///   - `screen_output`: whether to output the results to the screen.
     ///
     pub fn compute_subcritical_case(
         &self,
@@ -155,10 +158,10 @@ impl Bump {
         //
         // Open a file to save the height of water.
         //
-        let test_file = std::fs::File::create(filename).ok();
+        let test_file = std::fs::File::create(filename);
         let mut subcritical_file = match test_file {
-            Some(file) => file,
-            None => {
+            Ok(file) => file,
+            Err(_) => {
                 println!("Bump - Error opening file {}", filename);
                 return;
             }
@@ -186,9 +189,13 @@ impl Bump {
             //
             h_water[n] = shallow_water::find_solution(&height, h_water[n + 1]);
         }
-        for n in 0..=self.n_cells {
-            h_water[n] += self.z[n];
-        }
+        //
+        // Use zip to iterate over corresponding elements in both vectors
+        // and update the water height.
+        //
+        h_water.iter_mut().zip(&self.z).for_each(|(h, &z)| {
+            *h += z;
+        });
         //
         // Output the results to the screen and a file.
         //
@@ -205,7 +212,7 @@ impl Bump {
             //
             // Output the results to a file.
             //
-            writeln!(subcritical_file, "{:.6}   {:.6}", x, h);
+            writeln!(subcritical_file, "{:.6}   {:.6}", x, h).unwrap();
         }
 
         subcritical_file.flush().ok();
@@ -215,10 +222,10 @@ impl Bump {
     /// Computes the transcritical no-shock case and outputs the results.
     ///
     /// - Arguments:
-    /// - `q_in`: the inflow discharge [m²/s].
-    /// - `g`: the acceleration due to gravity [m/s²].
-    /// - `filename`: the name of the file to output the results.
-    /// - `screen_output`: whether to output the results to the screen.
+    ///   - `q_in`: the inflow discharge [m²/s].
+    ///   - `g`: the acceleration due to gravity [m/s²].
+    ///   - `filename`: the name of the file to output the results.
+    ///   - `screen_output`: whether to output the results to the screen.
     ///
     pub fn compute_transcritical_no_shock_case(
         &self,
@@ -239,10 +246,10 @@ impl Bump {
         //
         // Open a file to save the height of water.
         //
-        let test_file = std::fs::File::create(filename).ok();
+        let test_file = std::fs::File::create(filename);
         let mut transcritical_no_shock_file = match test_file {
-            Some(file) => file,
-            None => {
+            Ok(file) => file,
+            Err(_) => {
                 println!("Bump - Error opening file {}", filename);
                 return;
             }
@@ -327,13 +334,16 @@ impl Bump {
             println!("==============================================");
             println!("x (m)     Z (m)     height (m)");
         }
-
-        // Add bump height to water height
-        for n in 0..=self.n_cells {
-            h_water[n] += self.z[n];
-        }
-
+        //
+        // Use zip to iterate over corresponding elements in both vectors
+        // and update the water height.
+        //
+        h_water.iter_mut().zip(&self.z).for_each(|(h, &z)| {
+            *h += z;
+        });
+        //
         // Output results
+        //
         for n in 1..=self.n_cells {
             //
             // Output the results to the screen.
@@ -358,11 +368,11 @@ impl Bump {
     /// Computes the transcritical shock case and outputs the results.
     ///
     /// - Arguments:
-    /// - `q_in`: the inflow discharge [m²/s].
-    /// - `h_out`: the outflow height [m].
-    /// - `g`: the acceleration due to gravity [m/s²].
-    /// - `filename`: the name of the file to output the results.
-    /// - `screen_output`: whether to output the results to the screen.
+    ///   - `q_in`: the inflow discharge [m²/s].
+    ///   - `h_out`: the outflow height [m].
+    ///   - `g`: the acceleration due to gravity [m/s²].
+    ///   - `filename`: the name of the file to output the results.
+    ///   - `screen_output`: whether to output the results to the screen.
     ///
     pub fn compute_transcritical_shock_case(
         &self,
@@ -384,10 +394,10 @@ impl Bump {
         //
         // Open a file to save the height of water.
         //
-        let test_file = std::fs::File::create(filename).ok();
+        let test_file = std::fs::File::create(filename);
         let mut transcritical_shock_file = match test_file {
-            Some(file) => file,
-            None => {
+            Ok(file) => file,
+            Err(_) => {
                 println!("Bump - Error opening file {}", filename);
                 return;
             }
@@ -417,7 +427,7 @@ impl Bump {
             // The coefficients of the Bernoulli cubic equation to solve
             // a*h^3 + b*h^2 + c*h + d = 0.
             //
-            let coeffs1 = shallow_water::bernoulli_coefficients(
+            let coeffs_1 = shallow_water::bernoulli_coefficients(
                 q_in,
                 h_out,
                 self.z[n_shock],
@@ -427,7 +437,7 @@ impl Bump {
             //
             // Compute the h_plus water height.
             //
-            let hplus = shallow_water::solve_cubic_equation(&coeffs1);
+            let hplus = shallow_water::solve_cubic_equation(&coeffs_1);
             h_plus = shallow_water::find_solution(&hplus, h_out);
             if h_plus <= 1.0e-5 {
                 n_shock += 1;
@@ -437,7 +447,7 @@ impl Bump {
             // The coefficients of the Bernoulli cubic equation to solve
             // a*h^3 + b*h^2 + c*h + d = 0.
             //
-            let coeffs2 = shallow_water::bernoulli_coefficients(
+            let coeffs_2 = shallow_water::bernoulli_coefficients(
                 q_in,
                 h_middle,
                 self.z[n_shock],
@@ -447,7 +457,7 @@ impl Bump {
             //
             // Compute the h_minus water height.
             //
-            let hminus = shallow_water::solve_cubic_equation(&coeffs2);
+            let hminus = shallow_water::solve_cubic_equation(&coeffs_2);
             h_minus = shallow_water::find_solution(&hminus, h_middle);
             if h_minus <= 1.0e-5 {
                 n_shock += 1;
@@ -533,11 +543,12 @@ impl Bump {
             println!("x (m)     Z (m)     height (m)");
         }
         //
-        // Add bump height to water height
+        // Use zip to iterate over corresponding elements in both vectors
+        // and update the water height.
         //
-        for n in 0..=self.n_cells {
-            h_water[n] += self.z[n];
-        }
+        h_water.iter_mut().zip(&self.z).for_each(|(h, &z)| {
+            *h += z;
+        });
         //
         // Output results
         //
