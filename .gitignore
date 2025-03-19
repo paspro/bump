@@ -1,13 +1,4 @@
-# Build directory
-.xmake/
-build/
-
-# MacOS Cache
-.DS_Store
-
-# IDEs
+target/
 .idea/
-.vscode/
-
-# Documentation
-docs/
+*.log
+.DS_Store

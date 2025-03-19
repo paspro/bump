@@ -1,0 +1,43 @@
+
+[package]
+name = "bump"
+version = "3.0.0"
+edition = "2024"
+description = "Computing the height of water for the case of a shallow water flow over a bump"
+keywords = ["shallow water", "bump", "flow"]
+license = "GPL-3.0-only"
+authors = ["Panos Asproulis <p.asproulis@icloud.com>"]
+rust-version = "1.85"
+
+[dependencies]
+num-complex = "0.4"
+
+[[bin]]
+name = "bump"
+path = "src/main.rs"
+test = false
+bench = false
+
+[profile.release]
+opt-level = 3
+debug = 0
+lto = true
+panic = "abort"
+overflow-checks = false
+incremental = true
+strip = true
+codegen-units = 1
+debug-assertions = false
+rpath = false
+
+[profile.dev]
+opt-level = 0
+debug = 2
+lto = false
+panic = "unwind"
+overflow-checks = true
+incremental = true
+strip = false
+codegen-units = 1
+debug-assertions = true
+rpath = false
