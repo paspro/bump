@@ -1,4 +1,4 @@
-name: CI
+name: Rust
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -27,7 +27,7 @@ jobs:
       run: cargo test --verbose
 
   doc:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
