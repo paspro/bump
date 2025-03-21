@@ -18,11 +18,11 @@ use num_complex::Complex64;
 /// water flow between an inflow and an outflow location.
 ///
 /// - Arguments:
-///   - 'q_in': inflow discharge [m²/s].
-///   - 'h_out': outflow height [m].
-///   - 'z_in': inflow elevation [m].
-///   - 'z_out': outflow elevation [m].
-///   - 'g': acceleration due to gravity [m/s²].
+///   - 'q_in': inflow discharge (m²/s).
+///   - 'h_out': outflow height (m).
+///   - 'z_in': inflow elevation (m).
+///   - 'z_out': outflow elevation (m).
+///   - 'g': acceleration due to gravity (m/s²).
 ///
 /// - Returns:
 ///   - The Bernoulli coefficients a, b, c, d.
@@ -92,7 +92,7 @@ pub fn solve_cubic_equation(coefficients: &(f64, f64, f64, f64)) -> Vec<Complex6
 ///
 /// - Arguments:
 ///   - 'roots': the roots of the cubic equation.
-///   - 'h_near': The height of water at the previously computed location [m].
+///   - 'h_near': The height of water at the previously computed location (m).
 ///
 /// - Returns:
 ///   - The solution which makes sense.

@@ -23,7 +23,7 @@ use crate::shallow_water;
 ///
 pub struct Bump {
     ///
-    /// The length of the domain [m].
+    /// The length of the domain (m).
     ///
     length: f64,
     ///
@@ -31,15 +31,15 @@ pub struct Bump {
     ///
     n_cells: usize,
     ///
-    /// The x-coordinates of the cell centers [m].
+    /// The x-coordinates of the cell centers (m).
     ///
     x: Vec<f64>,
     ///
-    /// The height of the bump at the cell centers [m].
+    /// The height of the bump at the cell centers (m).
     ///
     z: Vec<f64>,
     ///
-    /// The maximum height of the bump [m].
+    /// The maximum height of the bump (m).
     ///
     z_max: f64,
     ///
@@ -56,7 +56,7 @@ impl Bump {
     /// Create a new Bump object and initialise its geometry.
     ///
     /// - Arguments:
-    ///   - `length`: the length of the domain [m].
+    ///   - `length`: the length of the domain (m).
     ///   - `n_cells`: the number of cells to be used for the numerical discretisation.
     ///
     /// - Returns:
@@ -99,10 +99,10 @@ impl Bump {
     /// Compute the geometry of the bump.
     ///
     /// - Arguments:
-    ///  - `x`: the x-coordinate [m].
+    ///  - `x`: the x-coordinate (m).
     ///
     /// - Returns:
-    ///   - The height of the bump for the given x-coordinate [m].
+    ///   - The height of the bump for the given x-coordinate (m).
     ///
     #[inline]
     fn bump_geometry(x: f64) -> f64 {
@@ -113,10 +113,10 @@ impl Bump {
     /// Computes the Rankine-Hugoniot condition for shock conditions.
     ///
     /// - Arguments:
-    ///   - `h_plus`: the height of the water on the right side of the shock [m].
-    ///   - `h_minus`: the height of the water on the left side of the shock [m].
-    ///   - `q`: flow rate of water [m²/s].
-    ///   - `g`: the acceleration due to gravity [m/s²].
+    ///   - `h_plus`: the height of the water on the right side of the shock (m).
+    ///   - `h_minus`: the height of the water on the left side of the shock (m).
+    ///   - `q`: flow rate of water (m²/s).
+    ///   - `g`: the acceleration due to gravity (m/s²).
     ///
     /// - Returns:
     ///   - The value of the Rankine-Hugoniot condition which should be zero
@@ -132,9 +132,9 @@ impl Bump {
     /// Computes the subcritical case and outputs the results.
     ///
     /// - Arguments:
-    ///   - `q_in`: the inflow discharge [m²/s].
-    ///   - `h_out`: the outflow height [m].
-    ///   - `g`: the acceleration due to gravity [m/s²].
+    ///   - `q_in`: the inflow discharge (m²/s).
+    ///   - `h_out`: the outflow height (m).
+    ///   - `g`: the acceleration due to gravity (m/s²).
     ///   - `filename`: the name of the file to output the results.
     ///   - `screen_output`: whether to output the results to the screen.
     ///
@@ -222,8 +222,8 @@ impl Bump {
     /// Computes the transcritical no-shock case and outputs the results.
     ///
     /// - Arguments:
-    ///   - `q_in`: the inflow discharge [m²/s].
-    ///   - `g`: the acceleration due to gravity [m/s²].
+    ///   - `q_in`: the inflow discharge (m²/s).
+    ///   - `g`: the acceleration due to gravity (m/s²).
     ///   - `filename`: the name of the file to output the results.
     ///   - `screen_output`: whether to output the results to the screen.
     ///
@@ -368,9 +368,9 @@ impl Bump {
     /// Computes the transcritical shock case and outputs the results.
     ///
     /// - Arguments:
-    ///   - `q_in`: the inflow discharge [m²/s].
-    ///   - `h_out`: the outflow height [m].
-    ///   - `g`: the acceleration due to gravity [m/s²].
+    ///   - `q_in`: the inflow discharge (m²/s).
+    ///   - `h_out`: the outflow height (m).
+    ///   - `g`: the acceleration due to gravity (m/s²).
     ///   - `filename`: the name of the file to output the results.
     ///   - `screen_output`: whether to output the results to the screen.
     ///
