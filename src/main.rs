@@ -12,8 +12,6 @@
 //!  Copyright (c) 2025 by Dr. Panos Asproulis (p.asproulis@icloud.com).
 //!  All Rights Reserved.
 
-#![allow(unused)]
-
 //
 // Application modules.
 //
