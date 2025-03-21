@@ -10,7 +10,7 @@
 //
 // Imports from the standard library.
 //
-use std::{io::Write, ops::Sub};
+use std::io::Write;
 
 //
 // Import of internal modules
@@ -22,10 +22,6 @@ use crate::shallow_water;
 /// numerical solution of the shallow water equations.
 ///
 pub struct Bump {
-    ///
-    /// The length of the domain (m).
-    ///
-    length: f64,
     ///
     /// The number of cells to be used for the numerical discretisation.
     ///
@@ -64,7 +60,6 @@ impl Bump {
     ///
     pub fn new(length: f64, n_cells: usize) -> Self {
         let mut bump = Self {
-            length,
             n_cells,
             x: vec![0.0; n_cells + 1],
             z: vec![0.0; n_cells + 1],
@@ -166,7 +161,7 @@ impl Bump {
                 return;
             }
         };
-        writeln!(subcritical_file, "# x (m)    height (m)");
+        writeln!(subcritical_file, "# x (m)    height (m)").unwrap();
         //
         // Iteration from the end of the field to the beginning
         // with application of the Bernoulli equation at each cell.
@@ -254,7 +249,7 @@ impl Bump {
                 return;
             }
         };
-        writeln!(transcritical_no_shock_file, "# x (m)    height (m)");
+        writeln!(transcritical_no_shock_file, "# x (m)    height (m)").unwrap();
         //
         // Discretisation.
         //
@@ -358,7 +353,7 @@ impl Bump {
                 transcritical_no_shock_file,
                 "{:.6}   {:.6}",
                 self.x[n], h_water[n]
-            );
+            ).unwrap();
         }
 
         transcritical_no_shock_file.flush().ok();
@@ -402,7 +397,7 @@ impl Bump {
                 return;
             }
         };
-        writeln!(transcritical_shock_file, "# x (m)    height (m)");
+        writeln!(transcritical_shock_file, "# x (m)    height (m)").unwrap();
         //
         // Discretisation
         //
@@ -566,7 +561,7 @@ impl Bump {
                 transcritical_shock_file,
                 "{:.6}   {:.6}",
                 self.x[n], h_water[n]
-            );
+            ).unwrap();
         }
 
         transcritical_shock_file.flush().ok();
