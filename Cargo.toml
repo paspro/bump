@@ -1,7 +1,7 @@
 
 [package]
 name = "bump"
-version = "3.0.0"
+version = "3.0.1"
 edition = "2024"
 description = "Computing the height of water for the case of a shallow water flow over a bump"
 keywords = ["shallow water", "bump", "flow"]
@@ -11,6 +11,7 @@ rust-version = "1.85"
 
 [dependencies]
 num-complex = "0.4"
+numerics = {git = "https://github.com/paspro/numerics.git"}
 
 [[bin]]
 name = "bump"

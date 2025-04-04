@@ -43,50 +43,6 @@ pub fn bernoulli_coefficients(
 }
 
 ///
-/// Solve a cubic equation of the form: a*h^3 + b*h^2 + c*h + d = 0
-/// using Cardano's method. The cubic equation has three roots.
-///
-/// - Arguments:
-///   - 'coefficients': the Bernoulli coefficients a, b, c, d.
-///
-/// - Returns:
-///   - The roots of the cubic equation.
-///
-pub fn solve_cubic_equation(coefficients: &(f64, f64, f64, f64)) -> Vec<Complex64> {
-    let (a, b, c, d) = coefficients;
-    //
-    // Normalize the coefficients
-    //
-    let b = b / a;
-    let c = c / a;
-    let d = d / a;
-    //
-    // Calculate the discriminant
-    //
-    let delta0 = b * b - 3.0 * c;
-    let delta1 = 2.0 * b * b * b - 9.0 * b * c + 27.0 * d;
-    //
-    // Calculate ci as in Cardano's formula
-    //
-    let sqrt_term = Complex64::new(delta1 * delta1 - 4.0 * delta0 * delta0 * delta0, 0.0).sqrt();
-    let ci = ((delta1 + sqrt_term) / 2.0).powf(1.0 / 3.0);
-    //
-    // Cube roots of unity: ω and ω²
-    //
-    let omega = Complex64::new(-0.5, 3.0_f64.sqrt() / 2.0);
-    //
-    // Compute the roots
-    //
-    let mut roots = Vec::with_capacity(3);
-    for k in 0..3 {
-        let omega_k = omega.powi(k);
-        roots.push(-1.0 / 3.0 * (b + omega_k * ci + delta0 / (omega_k * ci)));
-    }
-
-    roots
-}
-
-///
 /// Find the solution which makes sense for a particular case
 /// given the three roots of the cubic equation.
 ///

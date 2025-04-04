@@ -7,14 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-//
-// Imports from the standard library.
-//
+use numerics;
 use std::io::Write;
-
-//
-// Import of internal modules
-//
 use crate::shallow_water;
 
 ///
@@ -178,7 +172,7 @@ impl Bump {
             //
             // The bump height solutions.
             //
-            let height = shallow_water::solve_cubic_equation(&coeffs);
+            let height = numerics::solve_cubic_equation(&coeffs);
             //
             // Find the solution which makes sense for this case.
             //
@@ -276,7 +270,7 @@ impl Bump {
             //
             // The bump height solutions.
             //
-            let height = shallow_water::solve_cubic_equation(&coeffs);
+            let height = numerics::solve_cubic_equation(&coeffs);
             //
             // Find the solution which makes sense for this case.
             //
@@ -294,7 +288,7 @@ impl Bump {
             g,
         );
 
-        let height = shallow_water::solve_cubic_equation(&coeffs);
+        let height = numerics::solve_cubic_equation(&coeffs);
         h_water[self.n_max + 1] = shallow_water::find_solution(&height, h_middle);
 
         for n in (self.n_max + 2)..=self.n_cells {
@@ -307,7 +301,7 @@ impl Bump {
             //
             // The bump height solutions.
             //
-            let height = shallow_water::solve_cubic_equation(&coeffs);
+            let height = numerics::solve_cubic_equation(&coeffs);
             //
             // Find the solution which makes sense for this case.
             //
@@ -432,7 +426,7 @@ impl Bump {
             //
             // Compute the h_plus water height.
             //
-            let hplus = shallow_water::solve_cubic_equation(&coeffs_1);
+            let hplus = numerics::solve_cubic_equation(&coeffs_1);
             h_plus = shallow_water::find_solution(&hplus, h_out);
             if h_plus <= 1.0e-5 {
                 n_shock += 1;
@@ -452,7 +446,7 @@ impl Bump {
             //
             // Compute the h_minus water height.
             //
-            let hminus = shallow_water::solve_cubic_equation(&coeffs_2);
+            let hminus = numerics::solve_cubic_equation(&coeffs_2);
             h_minus = shallow_water::find_solution(&hminus, h_middle);
             if h_minus <= 1.0e-5 {
                 n_shock += 1;
@@ -484,7 +478,7 @@ impl Bump {
             //
             // The bump height solutions.
             //
-            let height = shallow_water::solve_cubic_equation(&coeffs);
+            let height = numerics::solve_cubic_equation(&coeffs);
             //
             // Find the solution which makes sense for this case.
             //
@@ -509,7 +503,7 @@ impl Bump {
             //
             // The bump height solutions.
             //
-            let height = shallow_water::solve_cubic_equation(&coeffs);
+            let height = numerics::solve_cubic_equation(&coeffs);
             //
             // Find the solution which makes sense for this case.
             //
